@@ -59,7 +59,7 @@ public class Experiment2 {
         marginalize(supportPassageRunFileMap, generatedRunFileMap);
         System.out.println("[Done].");
 
-        System.out.print("Making new run file....");
+        System.out.println("Making new run file....");
         makeNewRunFile(generatedRunFileMap, candidatePassageRunFileMap, newRunFileMap);
         makeRunFileStrings(newRunFileMap, runStrings);
         System.out.println("[Done].");

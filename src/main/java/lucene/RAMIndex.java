@@ -144,6 +144,7 @@ public class RAMIndex {
      * @return IndexSearcher
      * @throws IOException
      */
+    @NotNull
     public static IndexSearcher createSearcher(Similarity similarity, @NotNull IndexWriter iw) throws IOException {
         Directory dir = iw.getDirectory();
         IndexReader reader = DirectoryReader.open(dir);

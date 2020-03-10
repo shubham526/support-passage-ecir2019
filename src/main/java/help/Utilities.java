@@ -91,7 +91,7 @@ public class Utilities {
      * @param runStrings List of strings to be written to file
      * @param filePath Path to the output file
      */
-    public static void writeFile(@NotNull ArrayList<String> runStrings, String filePath) {
+    public static void writeFile(@NotNull List<String> runStrings, String filePath) {
         BufferedWriter out = null;
         try {
             out = new BufferedWriter(new FileWriter(filePath,true));
@@ -235,7 +235,8 @@ public class Utilities {
                 // Get the document corresponding to the paragraph from the lucene index
                 Document doc = Index.Search.searchIndex("id", paraId, searcher);
                 // Get the entities in the paragraph
-                String[] entityList = Utilities.clean(doc.getField("entity").stringValue().split(" "));
+                assert doc != null;
+                String[] entityList = Utilities.clean(doc.get("entity").split(" "));
                 // Make an ArrayList from the String array
                 ArrayList<String> pEntList = new ArrayList<>(Arrays.asList(entityList));
                 // If the document does not have any entities then ignore

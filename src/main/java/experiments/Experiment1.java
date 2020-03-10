@@ -1,6 +1,7 @@
 package experiments;
 
 import help.Utilities;
+import me.tongfei.progressbar.ProgressBar;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedReader;
@@ -22,7 +23,7 @@ public class Experiment1 {
 
     private ArrayList<String> runStrings = new ArrayList<>();
     private LinkedHashMap<String, LinkedHashMap<String, LinkedList<String>>> supportPassageMap = new LinkedHashMap<>();
-    LinkedHashMap<String, Double> passageScoreMap = new LinkedHashMap<>();
+    private LinkedHashMap<String, Double> passageScoreMap = new LinkedHashMap<>();
 
     /**
      * Constructor.
@@ -112,10 +113,13 @@ public class Experiment1 {
         List<String> queryList = new ArrayList<>(supportPassageMap.keySet());
         // Do in parallel
         // queryList.parallelStream().forEach(this::doTask);
+        ProgressBar pb = new ProgressBar("Progress", queryList.size());
 
         for (String queryId : queryList) {
             doTask(queryId);
+            pb.step();
         }
+        pb.close();
 
     }
 
@@ -142,7 +146,7 @@ public class Experiment1 {
             }
         }
         makeRunStrings(queryId, passageScoreMap);
-        System.out.println("Done: " + queryId);
+        //System.out.println("Done: " + queryId);
 
     }
 

@@ -113,8 +113,6 @@ public class Experiment1 {
 
         if (entityRankings.containsKey(queryId) && entityQrels.containsKey(queryId)) {
 
-            // Get the ranking of entities for the query
-            LinkedHashMap<String, Double> entityMap = entityRankings.get(queryId);
             // Get the list of paragraphs retrieved for the query
             ArrayList<String> paraList = new ArrayList<>(paraRankings.get(queryId).keySet());
 
@@ -310,17 +308,18 @@ public class Experiment1 {
      * @param args Command line arguments.
      */
     public static void main(@NotNull String[] args) {
+
         String indexDir = args[0];
         String trecCarDir = args[1];
         String outputDir = args[2];
         String dataDir = args[3];
-        String passageRunFile = args[4];
+        String paraRunFile = args[4];
         String entityRunFile = args[5];
         String outputRunFile = args[6];
-        String entityQrelFilePath = args[7];
+        String entityQrel = args[7];
 
-        new Experiment1(indexDir, trecCarDir, outputDir, dataDir, passageRunFile, entityRunFile, outputRunFile,
-                entityQrelFilePath);
+        new Experiment1(indexDir, trecCarDir, outputDir, dataDir, paraRunFile, entityRunFile, outputRunFile,
+                entityQrel);
 
     }
 }
