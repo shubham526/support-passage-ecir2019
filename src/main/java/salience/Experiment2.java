@@ -1,6 +1,6 @@
 package salience;
 
-import help.EntitySalience;
+import api.SWATApi;
 import help.Utilities;
 import lucene.Index;
 import org.apache.lucene.document.Document;
@@ -238,7 +238,7 @@ public class Experiment2 {
                 }
                 assert document != null;
                 paraText = document.get("text");
-                saliencyMap = EntitySalience.getSalientEntities(paraText);
+                saliencyMap = SWATApi.getSalientEntities(paraText);
                 //System.out.println("Could not find SWAT annotation for paraID: " + paraID);
                 //System.out.println("Queried the SWAT API.");
                 salientEntityMap.put(paraID, saliencyMap);

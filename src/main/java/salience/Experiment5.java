@@ -1,6 +1,6 @@
 package salience;
 
-import help.EntitySalience;
+import api.SWATApi;
 import lucene.Index;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.queryparser.classic.ParseException;
@@ -152,7 +152,7 @@ public class Experiment5 {
                         }
                         assert document != null;
                         paraText = document.get("text");
-                        saliencyMap = EntitySalience.getSalientEntities(paraText); // Now query SWAT
+                        saliencyMap = SWATApi.getSalientEntities(paraText); // Now query SWAT
                         if ( ! (saliencyMap == null) ) {
                             // If SWAT returned something then store it in the in-memory map and check if it contains
                             // the entity

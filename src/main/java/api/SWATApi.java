@@ -1,4 +1,4 @@
-package help;
+package api;
 
 
 import org.apache.http.client.utils.URIBuilder;
@@ -21,10 +21,10 @@ import java.util.Scanner;
  * You can either annotate all entities in the text (salient as well as non-salient) or just the salient entities.
  * The class creates a Map of annotated entities and writes it to disk as a serialized file.
  * @author Shubham Chatterjee
- * @version 4/24/2019
+ * @version 3/8/2020
  */
 
-public class EntitySalience {
+public class SWATApi {
     private final static String URL = "https://swat.d4science.org/salience";
     private final static String TOKEN = "8775ecea-90d0-4fca-89d3-e19c0790489f-843339462";
 
@@ -38,6 +38,7 @@ public class EntitySalience {
     public static Map<String, Double>   getSalientEntities(String text) {
         Map<String, Double> salientEntities = new HashMap<>();
         URL u = getURL();
+        assert u != null;
         URLConnection connection = setUpConnection(u);
         doTask(connection, text, salientEntities);
         if (salientEntities.size() != 0) {
@@ -63,7 +64,7 @@ public class EntitySalience {
 
     /**
      * Do the actual work.
-     * @param connection URLconnection
+     * @param connection URLConnection
      * @param text String
      * @param annotationList List
      */
@@ -73,6 +74,11 @@ public class EntitySalience {
         String jsonInputString = "{\"content\": \"" + text + "\"}";
         write(jsonInputString, connection);
         String res = read(connection);
+
+        if (res.isEmpty()) {
+            System.err.println("Server returned no result.");
+            return;
+        }
 
         try {
             JSONObject response = new JSONObject(res);
@@ -89,6 +95,7 @@ public class EntitySalience {
                 }
             }
         } catch (JSONException e) {
+            System.err.println("ERROR: JSONException");
             e.printStackTrace();
         }
     }
@@ -163,18 +170,39 @@ public class EntitySalience {
      * @return String The response read
      */
     @NotNull
-    private static String read(URLConnection connection) {
+    private static String read(@NotNull URLConnection connection) {
+
+        InputStream inputStream;
+        try {
+            inputStream = connection.getInputStream();
+        } catch (IOException e) {
+            System.err.println("ERROR: IOException");
+            System.err.println("Input Stream not available.");
+            return "";
+        }
+
+        try {
+            if (inputStream.available() == 0) {
+                System.err.println("InputStream available but no data to read.");
+                return "";
+            }
+        } catch (IOException e) {
+            System.err.println("ERROR: IOException");
+            System.err.println("InputStream available but no data to read.");
+            return "";
+        }
+
+
         StringBuilder response = new StringBuilder();
         try (BufferedReader br = new BufferedReader(
-                new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8))) {
+                new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
             String responseLine;
             while ((responseLine = br.readLine()) != null) {
                 response.append(responseLine.trim());
             }
         } catch (IOException e) {
-            String error = String.format("Invalid InputStream, %s",
-                    e.getMessage());
-            System.out.println(error);
+            System.err.println("ERROR: IOException while reading from InputStream");
+            e.printStackTrace();
         }
         return response.toString();
     }
@@ -191,6 +219,11 @@ public class EntitySalience {
         write(jsonInputString, connection);
         String res = read(connection);
 
+        if (res.isEmpty()) {
+            System.err.println("Server returned no result.");
+            return;
+        }
+
         try {
             JSONObject response = new JSONObject(res);
             String status = response.getString("status");
@@ -199,9 +232,9 @@ public class EntitySalience {
                 getSalientEntities(jsonObjects, salientEntities);
             }
         } catch (JSONException e) {
-            String error = String.format("Invalid InputStream, %s",
-                    e.getMessage());
-            System.out.println(error);
+            System.err.println("ERROR: JSONException");
+            e.printStackTrace();
+
         }
     }
 
@@ -255,7 +288,7 @@ public class EntitySalience {
         String text = sc.nextLine();
         System.out.println("Enter file to store: ");
         String file = sc.nextLine();
-        ArrayList<String> list = EntitySalience.getAllEntities(text);
+        ArrayList<String> list = SWATApi.getAllEntities(text);
         System.out.println("Writing....");
         ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(file)));
         oos.writeObject(list);

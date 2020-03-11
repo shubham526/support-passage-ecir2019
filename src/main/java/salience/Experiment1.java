@@ -1,6 +1,6 @@
 package salience;
 
-import help.EntitySalience;
+import api.SWATApi;
 import help.PseudoDocument;
 import help.Utilities;
 import lucene.Index;
@@ -189,7 +189,7 @@ public class Experiment1 {
                     saliencyMap = salientEntityMap.get(paraID);
                 } else {
                     // Otherwise, query the SWAT API and save the salient entity for the paragraph
-                    saliencyMap = EntitySalience.getSalientEntities(paraText);
+                    saliencyMap = SWATApi.getSalientEntities(paraText);
                     salientEntityMap.put(paraID, saliencyMap);
                 }
 

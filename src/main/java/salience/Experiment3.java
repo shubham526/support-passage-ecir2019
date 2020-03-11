@@ -1,6 +1,6 @@
 package salience;
 
-import help.EntitySalience;
+import api.SWATApi;
 import help.Utilities;
 import lucene.Index;
 import org.apache.lucene.document.Document;
@@ -198,7 +198,7 @@ public class Experiment3 {
                 }
                 assert document != null;
                 paraText = document.get("text"); // Get the paragraph text
-                saliencyMap = EntitySalience.getSalientEntities(paraText); // Query the SWAT API
+                saliencyMap = SWATApi.getSalientEntities(paraText); // Query the SWAT API
                 salientEntityMap.put(paraID, saliencyMap); // Store the annotations received from SWAT in cache.
             }
             if (saliencyMap == null) {
