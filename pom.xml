@@ -5,17 +5,35 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>edu.unh.trema</groupId>
-    <artifactId>support-passage</artifactId>
+    <artifactId>support-passage-ecir</artifactId>
     <version>1.0-SNAPSHOT</version>
+
 
     <repositories>
 
         <repository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </releases>
         </repository>
 
     </repositories>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.google.cloud</groupId>
+                <artifactId>libraries-bom</artifactId>
+                <version>4.2.0</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
 
     <dependencies>
 
@@ -23,6 +41,22 @@
             <groupId>com.github.TREMA-UNH</groupId>
             <artifactId>trec-car-tools-java</artifactId>
             <version>15</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.cloud</groupId>
+            <artifactId>google-cloud-language</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.api-client</groupId>
+            <artifactId>google-api-client</artifactId>
+            <version>1.30.8</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.cloud</groupId>
+            <artifactId>google-cloud-storage</artifactId>
         </dependency>
 
         <dependency>
@@ -95,11 +129,15 @@
             <version>1.13.1</version>
         </dependency>
 
+        <!--
+
         <dependency>
             <groupId>com.mks.api</groupId>
             <artifactId>mksapi-jar</artifactId>
             <version>4.10.9049</version>
         </dependency>
+
+        -->
 
         <!-- https://mvnrepository.com/artifact/org.apache.jena/jena-arq -->
         <dependency>

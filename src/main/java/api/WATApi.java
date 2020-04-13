@@ -284,7 +284,7 @@ public class WATApi {
 
                 doc = getDocument(relMeasure, ids);
 
-                if (doc.text() != null) {
+                if (doc != null) {
                     JSONObject json = new JSONObject(doc.text());
                     if (json.has("pairs")) {
                         JSONArray jsonArray = json.getJSONArray("pairs");

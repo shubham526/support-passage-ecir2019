@@ -15,10 +15,10 @@ import java.util.*;
  */
 
 public class Experiment4 {
-    private HashMap<String, ArrayList<String>> entityRankings;
-    private HashMap<String, ArrayList<String>> entityQrel;
-    private HashMap<String, Set<String>> entWithSalPsgMap = new HashMap<>();
-    private HashMap<String, Set<String>> entWithNoSalPsgMap = new HashMap<>();
+    private Map<String, ArrayList<String>> entityRankings;
+    private Map<String, ArrayList<String>> entityQrel;
+    private Map<String, Set<String>> entWithSalPsgMap = new HashMap<>();
+    private Map<String, Set<String>> entWithNoSalPsgMap = new HashMap<>();
 
     /**
      * Constructor.

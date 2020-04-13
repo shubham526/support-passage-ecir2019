@@ -29,7 +29,7 @@ public class Experiment2 {
     private Map<String, Map<String, Map<String, Double>>> supportPsgRunFileMap;
     private HashMap<String,LinkedHashMap<String, Double>> entityRankings;
     private HashMap<String, Map<String, Double>> salientEntityMap;
-    private HashMap<String, Map<String, Double>> swatMap;
+    private Map<String, Map<String, Double>> swatMap;
     private Set<String> runStrings;
 
     /**

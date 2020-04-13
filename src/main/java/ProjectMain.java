@@ -1,5 +1,5 @@
-
 import baseline.PassageBaseline;
+import experiments.Experiment7;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
@@ -8,9 +8,6 @@ import org.apache.lucene.search.similarities.LMDirichletSimilarity;
 import org.apache.lucene.search.similarities.LMJelinekMercerSimilarity;
 import org.apache.lucene.search.similarities.Similarity;
 import org.jetbrains.annotations.NotNull;
-import salience.Experiment1;
-import salience.Experiment2;
-import salience.Experiment5;
 
 /**
  * Project runner.
@@ -32,6 +29,7 @@ public class ProjectMain {
         String indexDir, trecCarDir, outputDir, dataDir, paraRunFile, entityRunFile, outFile, entityQrel, swatFile,
                 supportPsgRunFile, outlinesFilePath, outputFilePath, supportPassageRunFilePath,
                 passageRunFilePath, candidatePassageRunFilePath, a, sim;
+        String s1 = null, s2 = null;
 
         Analyzer analyzer;
         Similarity similarity;
@@ -43,7 +41,6 @@ public class ProjectMain {
                 System.out.println("Making Passage baseline.");
                 similarity = null;
                 analyzer = null;
-                String s1 = null, s2 = null;
 
                 indexDir = args[1];
                 outlinesFilePath = args[2];
@@ -172,6 +169,102 @@ public class ProjectMain {
 
                 new salience.Experiment5(entityRunFile, paraRunFile, swatFile, entityQrel, indexDir, outputDir);
                 break;
+
+            case "exp7":
+                System.out.println("Experiment-7");
+                similarity = null;
+                analyzer = null;
+                boolean omit, useFrequency;
+
+                indexDir = args[1];
+                String mainDir = args[2];
+                outputDir = args[3];
+                dataDir = args[4];
+                String idFile = args[5];
+                String relFile = args[6];
+                paraRunFile = args[7];
+                entityRunFile = args[8];
+                entityQrel = args[9];
+                int takeKEntities = Integer.parseInt(args[10]);
+                String o = args[11];
+                String uf = args[12];
+                String relType = args[13];
+                a = args[14];
+                sim = args[15];
+
+                System.out.printf("Using %d entities for query expansion\n", takeKEntities);
+                omit = o.equalsIgnoreCase("y") || o.equalsIgnoreCase("yes");
+                useFrequency = uf.equalsIgnoreCase("true");
+
+                if (omit) {
+                    System.out.println("Using RM1");
+                    s2 = "rm1";
+                } else {
+                    System.out.println("Using RM3");
+                    s2 = "rm3";
+                }
+
+
+                switch (a) {
+                    case "std" :
+                        System.out.println("Analyzer: Standard");
+                        analyzer = new StandardAnalyzer();
+                        break;
+                    case "eng":
+                        System.out.println("Analyzer: English");
+                        analyzer = new EnglishAnalyzer();
+
+                        break;
+                    default:
+                        System.out.println("Wrong choice of analyzer! Exiting.");
+                        System.exit(1);
+                }
+                switch (sim) {
+                    case "BM25" :
+                    case "bm25":
+                        similarity = new BM25Similarity();
+                        System.out.println("Similarity: BM25");
+                        s1 = "bm25";
+                        break;
+                    case "LMJM":
+                    case "lmjm":
+                        System.out.println("Similarity: LMJM");
+                        float lambda;
+                        try {
+                            lambda = Float.parseFloat(args[16]);
+                            System.out.println("Lambda = " + lambda);
+                            similarity = new LMJelinekMercerSimilarity(lambda);
+                            s1 = "lmjm";
+                        } catch (IndexOutOfBoundsException e) {
+                            System.out.println("Missing lambda value for similarity LM-JM");
+                            System.exit(1);
+                        }
+                        break;
+                    case "LMDS":
+                    case "lmds":
+                        System.out.println("Similarity: LMDS");
+                        similarity = new LMDirichletSimilarity();
+                        s1 = "lmds";
+                        break;
+
+                    default:
+                        System.out.println("Wrong choice of similarity! Exiting.");
+                        System.exit(1);
+                }
+                outFile = "qe-rel-ent-context" + "-" + s1 + "-" + s2 + "-" + relType;
+                if (useFrequency) {
+                    System.out.println("Using frequency of co-occurring entities: Yes");
+                    outFile += "-" + "freq-true";
+                } else {
+                    System.out.println("Using frequency of co-occurring entities: No");
+                    outFile += "-" + "freq-false";
+                }
+
+                outFile += ".run";
+
+                new Experiment7(indexDir, mainDir, outputDir, dataDir, idFile, relFile, paraRunFile, entityRunFile, outFile,
+                        entityQrel, takeKEntities, omit, useFrequency, relType, analyzer, similarity);
+
 
             default: help();
 

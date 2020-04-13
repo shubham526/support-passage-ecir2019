@@ -152,6 +152,7 @@ public class GoogleKGApi {
 
         for (Entity entity : entities) {
             System.out.println("Name: " + entity.getName());
+            System.out.println("ID: " + WATApi.TitleResolver.getId(entity.getName().replaceAll(" ", "_")));
             System.out.println("Types: " + entity.getTypes());
             System.out.println("Description: " + entity.getDescription());
             System.out.println("KB Description: ");

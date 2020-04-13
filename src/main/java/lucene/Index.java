@@ -17,6 +17,7 @@ import org.apache.lucene.search.similarities.BM25Similarity;
 import org.apache.lucene.search.similarities.Similarity;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -358,17 +359,14 @@ public class Index
          * @throws IOException
          * @throws ParseException
          */
-        public static TopDocs searchIndex(BooleanQuery query,int n)throws IOException
-        {
-            TopDocs tds = is.search(query, n);
-            return tds;
+        public static TopDocs searchIndex(BooleanQuery query,int n)throws IOException {
+            return is.search(query, n);
         }
         public static TopDocs searchIndex(BooleanQuery booleanQuery,
                                           int n,
-                                          IndexSearcher searcher)throws IOException
-        {
-            TopDocs search = searcher.search(booleanQuery, n);
-            return search;
+                                          @NotNull IndexSearcher searcher)throws IOException {
+
+            return searcher.search(booleanQuery, n);
         }
         /**
          * Search the index for the given query in given field and return topmost hit

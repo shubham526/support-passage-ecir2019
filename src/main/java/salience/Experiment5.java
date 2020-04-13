@@ -24,16 +24,16 @@ import java.util.*;
 public class Experiment5 {
     private IndexSearcher searcher;
     // HashMap where Key = query and Value = List of entities retrieved for the query
-    private HashMap<String, ArrayList<String>> entityRankings;
+    private Map<String, ArrayList<String>> entityRankings;
 
     // HashMap where Key = query and Value = List of passages retrieved for the query
-    private HashMap<String, ArrayList<String>> passageRankings;
+    private Map<String, ArrayList<String>> passageRankings;
 
     // HashMap where Key = paraID and Value = Map of (entity, salience_score)
-    private HashMap<String, Map<String, Double>> salientEntityMap;
+    private Map<String, Map<String, Double>> salientEntityMap;
 
-    private HashMap<String, Set<String>> entWithSalPsgMap = new HashMap<>();
-    private HashMap<String, Set<String>> entWithNoSalPsgMap = new HashMap<>();
+    private Map<String, Set<String>> entWithSalPsgMap = new HashMap<>();
+    private Map<String, Set<String>> entWithNoSalPsgMap = new HashMap<>();
 
 
     /**

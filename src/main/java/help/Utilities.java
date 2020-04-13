@@ -1,6 +1,5 @@
 package help;
 import lucene.Index;
-import lucene.RAMIndex;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.StringField;
@@ -172,13 +171,27 @@ public class Utilities {
         return list;
     }
 
+    @NotNull
+    public static String unprocess(@NotNull String e) {
+        String[] arr = e.split("_");
+        StringBuilder sb = new StringBuilder();
+        sb.append("enwiki:");
+
+        for (String s : arr) {
+            sb.append(Character.toUpperCase(s.charAt(0)))
+                    .append(s.substring(1))
+                    .append(" ");
+        }
+        String s = sb.toString().trim();
+        return s.replaceAll(" ", "%20");
+    }
+
+    @NotNull
     @Contract(pure = true)
-    public static ArrayList<String> unprocess(List<String> pEntList, @NotNull List<String> entityList) {
+    public static ArrayList<String> unprocess(@NotNull List<String> entityList) {
         ArrayList<String> list = new ArrayList<>();
         for (String e : entityList) {
-            if (pEntList.contains(process(e))) {
-                list.add(e);
-            }
+            list.add(unprocess(e));
         }
         return list;
     }
@@ -321,10 +334,10 @@ public class Utilities {
      */
     @SuppressWarnings("unchecked")
 
-    public static <K, V>HashMap<K, V> readMap(String file) throws IOException, ClassNotFoundException {
-        HashMap<K, V> mapInFile;
+    public static <K, V>Map<K, V> readMap(String file) throws IOException, ClassNotFoundException {
+        Map<K, V> mapInFile;
         ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(file)));
-        mapInFile = (HashMap<K,V>)ois.readObject();
+        mapInFile = (Map<K,V>)ois.readObject();
 
         ois.close();
         return mapInFile;
@@ -357,7 +370,7 @@ public class Utilities {
      * @param <V> Value
      * @throws IOException
      */
-    public static <K,V> void writeMap(HashMap<K,V> map, String file) throws IOException {
+    public static <K,V> void writeMap(Map<K,V> map, String file) throws IOException {
 
         ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(file)));
         oos.writeObject(map);

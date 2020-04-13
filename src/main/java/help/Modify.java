@@ -6,7 +6,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -15,8 +15,8 @@ import java.util.Set;
  * @version 7/19/2019
  */
 public class Modify {
-    private HashMap<String, Set<String>> entWithSalPsgMap;
-    private HashMap<String, ArrayList<String>> qrelMap;
+    private Map<String, Set<String>> entWithSalPsgMap;
+    private Map<String, ArrayList<String>> qrelMap;
 
     /**
      * Constructor.
