@@ -21,7 +21,7 @@ import java.util.List;
 
 public class WATApi {
 
-    private final static String TOKEN = "xxxxxxx"; // INSERT YOUR KEY HERE
+    private final static String TOKEN = "xxxxxx"; // INSERT YOUR KEY HERE
 
     /**
      * Inner class t represent an annotation.

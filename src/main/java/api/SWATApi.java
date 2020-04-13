@@ -26,7 +26,7 @@ import java.util.Scanner;
 
 public class SWATApi {
     private final static String URL = "https://swat.d4science.org/salience";
-    private final static String TOKEN = "xxxxxxx"; // INSERT YOUR KEY HERE
+    private final static String TOKEN = "xxxxxx"; // INSERT YOUR KEY HERE
 
     /**
      * Get the salient entities in the text with their scores.
